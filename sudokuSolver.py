@@ -4,30 +4,30 @@ from os import path
 import PySide.QtCore as pysidecore
 import PySide.QtGui as pysidegui
 
-from SudokuPkg.GuiTools import MainWindow
+from sudoku.GuiTools import MainWindow
+from sudoku.Util import valid_files
 
-# NOTE: This puzzle reverses v1 file inputs.
+@valid_files
 def solvePuzzle(filename):
-    if not path.isfile(filename):
-        print("File: '%s' does not exist or is not a valid file." % filename)
-        exit(1)
     print("Loading puzzle from '%s'." % filename)
     application = pysidegui.QApplication([])
     mainWindow = MainWindow.MainWindowClass(filename)
     exit(application.exec_())
 
+def printUsage():
+    print()
+    print("Usage: sudokuSolver.py [inputfile]")
+    print()
+    print("Options:")
+    print("        [inputfile] -> File to read puzzle from")
 
 if __name__ == '__main__':
     if len(argv) == 1:
-        filename = "puzzles/puzzleEasy.txt"
+        filename = "sudoku/puzzles/puzzleEasy.txt"
     elif len(argv) == 2:
         filename = argv[1]
     else:
-        print("""
-Usage: sudokuSovlver.py [inputfile]
-
-Option:
-        inputfile -> File to read puzzle from and solve
-""")
+        printUsage()
         exit(1)
+
     solvePuzzle(filename)
